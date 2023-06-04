@@ -67,22 +67,23 @@ def getPlotData(eth_difference, btc_difference, offset_major, offset_minor):
             plot_data["date"].append(eth_difference[i]["date_start"][:11])
         plot_data["eth_data"][-1].append(eth_difference[i]["difference"])
         plot_data["btc_data"][-1].append(btc_difference[i]["difference"])
-        plot_data["minor_time"][-1].append(btc_difference[i]["date_start"][11:-3])
+        plot_data["minor_time"][-1].append(btc_difference[i]
+                                           ["date_start"][11:-3])
         if i % offset_minor == 0:
             plot_data["major_time"][-1].append(eth_difference[i]
-                                          ["date_start"][11:-3])
+                                               ["date_start"][11:-3])
     return plot_data
 
 
 def displayPlot(plot_data, period):
     fig, ax = plt.subplots()
-    ax.plot(plot_data["minor_time"][period], plot_data["eth_data"][period], plot_data["btc_data"][period])
+    ax.plot(plot_data["minor_time"][period], plot_data["eth_data"]
+            [period], plot_data["btc_data"][period])
     ax.set_xticks(plot_data["major_time"][period])
     plt.show()
     return fig, ax
 
 
-# Возвращает статистику по 
 def getDifferenceAdditionSignsData(eth_difference, btc_difference):
     difference_data = {
         "both_equal": 0,
@@ -107,12 +108,11 @@ def main():
     eth_difference = setDifferenceBeetwinWithDataset(OFFSET, eth)
     btc_difference = setDifferenceBeetwinWithDataset(OFFSET, btc)
 
-
     # Так я получил, что моменты, когда
     # btc растет/падает, одновременно с eth случаются на 34% чаще, чем когда они движутся в одном направлении
-    difference_data = getDifferenceAdditionSignsData(eth_difference, btc_difference)
+    difference_data = getDifferenceAdditionSignsData(
+        eth_difference, btc_difference)
     print(difference_data["both_equal"], len(difference_data["non_equal_eth"]))
-
 
     # Собираем данные для графика
     plot_data = getPlotData(eth_difference, btc_difference, 1440, 30)
@@ -122,4 +122,4 @@ def main():
 
 # Компилируется не моментально
 if __name__ == "__main__":
-	main()
+    main()
